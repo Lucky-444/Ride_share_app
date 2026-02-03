@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/user.model");
+
+const User = require("../models/user");
 
 const authMiddleware = async (req, res, next) => {
   const token = req.cookies.token;
@@ -23,7 +24,6 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-
 module.exports = {
-   authMiddleware
-}
+  authMiddleware,
+};
