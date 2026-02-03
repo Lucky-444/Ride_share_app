@@ -14,6 +14,8 @@ const bookingRoutes = require('./routes/bookingRoutes');
 const passengerRoutes = require('./routes/passengerRoutes');
 const driverRoutes = require('./routes/driverRoutes');
 
+const redisClient = require("./config/redisClient");
+
 const connectDB = require("./config/db");
 
 app.use(cors());
@@ -33,4 +35,8 @@ app.use('api/passenger' , passengerRoutes);
 
 server.listen(PORT ,() =>{
          console.log(`Server running On Port ${PORT}`);
+})
+
+redisClient.on('connect' , () => {
+         console.log("Connected To redis");
 })
