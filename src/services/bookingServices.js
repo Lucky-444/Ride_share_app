@@ -24,6 +24,39 @@ const createBookingService = async (source, destination, passengerId) => {
   }
 };
 
+const findNearbyDrivers = async (location, radius = 5) => {
+  try {
+    const longitude  = parseFloat(location.longitude);
+    const latitude  = parseFloat(location.latitude);
+
+    const radiusInKm = parseFloat(radius); // Radius in kilometers
+
+    if(isNaN(longitude) || isNaN(latitude) || isNaN(radiusInKm)) {
+      throw new Error("Invalid location or radius parameters");
+    }
+
+    const nearbyDrivers = await locationService.findDriversWithinRadius(latitude, longitude, radiusInKm);
+
+    return nearbyDrivers;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const assignDriver = async (bookingId, driverId) => {
+  try {
+    const updatedBooking = await bookingRepository.updatedBooking(bookingId, driverId , "confirmed");
+    if(!updatedBooking) {
+      throw new Error("Booking not found or already confirmed");
+    }
+    return updatedBooking;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   createBookingService,
+  findNearbyDrivers,
+  assignDriver,
 };
